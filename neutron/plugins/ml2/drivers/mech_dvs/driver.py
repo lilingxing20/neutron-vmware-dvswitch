@@ -20,16 +20,18 @@ try:
 except ImportError:
     from neutron.openstack.common import log
 
-from neutron.common import constants as n_const
-from neutron.extensions import portbindings
-from neutron.plugins.ml2 import driver_api as api
+from neutron_lib import constants as n_const
+from neutron_lib.api.definitions import portbindings
+from neutron_lib.plugins.ml2 import api
+
 from neutron.plugins.ml2.drivers.mech_dvs import config
 from neutron.plugins.ml2.drivers.mech_dvs import vmware_util
 
 LOG = log.getLogger(__name__)
 CONF = config.CONF
 
-portbindings.VIF_TYPE_DVS='dvs'
+#portbindings.VIF_TYPE_DVS='dvs'
+VIF_TYPE_DVS='dvs'
 
 
 class VMwareDVSMechanismDriver(api.MechanismDriver):
@@ -43,7 +45,7 @@ class VMwareDVSMechanismDriver(api.MechanismDriver):
 
     def initialize(self):
         LOG.info(_("VMware DVS mechanism driver initializing..."))
-        self.vif_type = portbindings.VIF_TYPE_DVS
+        self.vif_type = VIF_TYPE_DVS
         self.vif_details = {portbindings.CAP_PORT_FILTER: False}
         self._create_session()
         LOG.info(_("VMware DVS mechanism driver initialized..."))
